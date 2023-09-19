@@ -1,0 +1,20 @@
+{
+  "name": "top-weatherapp",
+  "version": "1.0.0",
+  "description": "A weather app made for The Odin Project",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack build",
+    "start": "webpack serve --open",
+    "watch": "webpack --watch"
+  },
+  "author": "Dylan Gresham",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
