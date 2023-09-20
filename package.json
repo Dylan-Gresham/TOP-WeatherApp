@@ -5,20 +5,17 @@
   "private": true,
   "main": "./src/index.js",
   "scripts": {
-    "build": "webpack --config webpack.production.config.js",
-    "start": "webpack serve --open --config webpack.developer.config.js",
-    "watch": "webpack --watch --config webpack.developer.config.js"
+    "build": "webpack",
+    "start": "webpack serve --open"
   },
   "author": "Dylan Gresham",
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^6.8.1",
-    "express": "^4.18.2",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-middleware": "^6.1.1",
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {

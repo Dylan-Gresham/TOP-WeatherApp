@@ -1,7 +1,8 @@
-import {
+let currLocation, getWeatherForLocation;
+({
     currLocation,
     getWeatherForLocation
-} from "./Weather";
+} = require("./Weather.js"));
 
 export function createNewWeatherIcon() {
     const icon = document.createElement('img');
@@ -10,9 +11,17 @@ export function createNewWeatherIcon() {
     return icon;
 }
 
-export function initialize() {
+export async function initialize() {
     // Get the current weather for Los Angeles
-    const currWeather = getWeatherForLocation(currLocation);
+    const currWeather = await getWeatherForLocation(currLocation);
+    if(currWeather === undefined) {
+        console.log('JSON Fetch failed');
+        console.log(currWeather);
+        return;
+    } else {
+        console.log('JSON Fetch Success!');
+        console.log(currWeather);
+    }
 
     // Create main container
     const container = document.createElement('div');
@@ -21,12 +30,14 @@ export function initialize() {
     // Create div for today's weather
     const todaysSection = document.createElement('div');
     todaysSection.id = 'todaysSection';
-    createCurrentWeatherDiv(todaysSection, currWeather);
+    await createCurrentWeatherDiv(todaysSection, currWeather);
+    console.log("Created current weather div");
 
     // Create div for forecast info (next days/hourly)
     const forecastSection = document.createElement('div');
     forecastSection.id = 'forecastSection';
-    swapToDaily(forecastSection, currWeather);
+    await swapToDaily(forecastSection, currWeather);
+    console.log("Swapped to daily forecast");
 
     // Add everything to the container
     container.append(todaysSection, forecastSection);
@@ -34,7 +45,7 @@ export function initialize() {
     return container;
 }
 
-function createCurrentWeatherDiv(container, jsonObj) {
+async function createCurrentWeatherDiv(container, jsonObj) {
     const leftDiv = document.createElement('div');
     leftDiv.id = 'leftDiv';
     const infoDiv = document.createElement('div');
@@ -67,14 +78,14 @@ function createCurrentWeatherDiv(container, jsonObj) {
     changeLocationsInput.id = 'changeLocationsInput';
     changeLocationsInput.setAttribute('type', 'search');
     changeLocationsInput.setAttribute('placeholder', 'New city...');
-    changeLocationsInput.addEventListener('keypress', (event) => {
+    changeLocationsInput.addEventListener('keypress', async (event) => {
         if(event.code === 'Enter') {
             if(changeLocationsInput.value === '' || changeLocationsInput.value === undefined
                 || changeLocationsInput.value === null) {
                 return;
             } else {
                 const newJsonObj = getWeatherForLocation();
-                createCurrentWeatherDiv(container, newJsonObj);
+                await createCurrentWeatherDiv(container, newJsonObj);
             }
         }
     });
@@ -83,7 +94,7 @@ function createCurrentWeatherDiv(container, jsonObj) {
     container.appendChild(leftDiv);
 }
 
-function swapToDaily(container, jsonObj) {
+async function swapToDaily(container, jsonObj) {
     const buttonDiv = document.createElement('div');
     buttonDiv.id = 'buttonDiv';
     const forecastDiv = document.createElement('div');
@@ -92,9 +103,9 @@ function swapToDaily(container, jsonObj) {
     const dailyButton = document.createElement('button');
     dailyButton.id = 'dailyButton';
     dailyButton.textContent = 'Daily';
-    dailyButton.addEventListener('click', (event) => {
+    dailyButton.addEventListener('click', async (event) => {
         if(!dailyButton.classList.contains('switched')) {
-            swapToDaily(container, jsonObj);
+            await swapToDaily(container, jsonObj);
             dailyButton.classList.toggle('switched');
             hourlyButton.classList.toggle('switched');
         }
@@ -104,9 +115,9 @@ function swapToDaily(container, jsonObj) {
     const hourlyButton = document.createElement('button');
     hourlyButton.id = 'hourlyButton';
     hourlyButton.textContent = 'Hourly';
-    hourlyButton.addEventListener('click', (event) => {
+    hourlyButton.addEventListener('click', async (event) => {
         if(!hourlyButton.classList.contains('switched')) {
-            swapToHourly(container, jsonObj);
+            await swapToHourly(container, jsonObj);
             hourlyButton.classList.toggle('switched');
             dailyButton.classList.toggle('switched');
         }
