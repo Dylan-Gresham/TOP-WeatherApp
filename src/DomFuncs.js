@@ -73,12 +73,9 @@ async function createCurrentWeatherDiv(container, jsonObj) {
         }
 
         // Get the forecastSection
-        const section = document.getElementById('forecastSection');
-        // Get the forecastDiv where the cards are
-        const container = section.childNodes[1];
-        // Iterate through each card and 'click' them
-        container.childNodes.forEach((card) => {
-            card.click();
+        const temps = document.querySelectorAll('.temp');
+        temps.forEach((temp) => {
+            temp.click();
         });
 
         event.stopPropagation();
@@ -108,7 +105,7 @@ async function swapToDaily(container, jsonObj) {
 
     const buttonDiv = makeButtonDiv(container, jsonObj);
 
-    const forecastDiv = document.createElement('forecastDiv');
+    const forecastDiv = document.createElement('div');
     forecastDiv.id = 'forecastDiv';
     const nextDayCard = document.createElement('div');
     nextDayCard.classList.add('dayCard');
@@ -120,6 +117,7 @@ async function swapToDaily(container, jsonObj) {
     nextDayIcon.src = jsonObj.nextDays[0].iconURL;
     const nextDayTemps = document.createElement('h4');
     nextDayTemps.classList.add('dayTemps');
+    nextDayTemps.classList.add('temp');
     nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F`;
     nextDayTemps.addEventListener('click', (event) => {
         if (!nextDayTemps.classList.contains('clicked')) {
@@ -144,6 +142,7 @@ async function swapToDaily(container, jsonObj) {
     thirdDayIcon.src = jsonObj.nextDays[1].iconURL;
     const thirdDayTemps = document.createElement('h4');
     thirdDayTemps.classList.add('dayTemps');
+    thirdDayTemps.classList.add('temp');
     thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F`;
     thirdDayTemps.addEventListener('click', (event) => {
         if (!thirdDayTemps.classList.contains('clicked')) {
@@ -287,6 +286,7 @@ async function swapToHourly(container, jsonObj) {
         hourIcon.src = hour.iconURL;
         const hourTemp = document.createElement('h4');
         hourTemp.classList.add('hourTemp');
+        hourTemp.classList.add('temp');
         hourTemp.textContent = `${hour.tempF} \xB0F`;
         hourTemp.addEventListener('click', (event) => {
             if (!hourTemp.classList.contains('switched')) {
