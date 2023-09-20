@@ -1,4 +1,4 @@
-const {initialize} =  require("./DomFuncs.js");
+const {initialize} = require("./DomFuncs.js");
 const {css} = require('./index.css');
 
 async function createContainer() {
