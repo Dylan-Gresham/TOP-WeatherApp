@@ -250,6 +250,8 @@ async function swapToHourly(container, jsonObj) {
             forecastDiv.appendChild(pageTwo);
             currPage = 2;
         }
+
+        event.stopPropagation();
     });
     const pageThreeDot = document.createElement('button');
     pageThreeDot.setAttribute('type', 'button');
@@ -262,6 +264,8 @@ async function swapToHourly(container, jsonObj) {
             forecastDiv.appendChild(pageThree);
             currPage = 3;
         }
+
+        event.stopPropagation();
     });
 
 
@@ -287,6 +291,8 @@ async function swapToHourly(container, jsonObj) {
                 hourTemp.textContent = `${hour.tempF} \xB0F`;
                 hourTemp.classList.toggle('switched');
             }
+
+            event.stopPropagation();
         });
         const hourChanceOfRain = document.createElement('p');
         hourChanceOfRain.classList.add('hourChanceOfRain');
