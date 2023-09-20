@@ -72,6 +72,15 @@ async function createCurrentWeatherDiv(container, jsonObj) {
             switchUnitsButton.classList.toggle('switched');
         }
 
+        // Get the forecastSection
+        const section = document.getElementById('forecastSection');
+        // Get the forecastDiv where the cards are
+        const container = section.childNodes[1];
+        // Iterate through each card and 'click' them
+        container.childNodes.forEach((card) => {
+            card.click();
+        });
+
         event.stopPropagation();
     });
     infoDiv.append(currentCondition, currentLocation, currentTemp, switchUnitsButton);
