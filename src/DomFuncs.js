@@ -16,11 +16,9 @@ export async function initialize() {
     const currWeather = await getWeatherForLocation(currLocation);
     if (currWeather === undefined) {
         console.log('JSON Fetch failed');
-        console.log(currWeather);
         return;
     } else {
         console.log('JSON Fetch Success!');
-        console.log(currWeather);
     }
 
     // Create main container
@@ -31,13 +29,11 @@ export async function initialize() {
     const todaysSection = document.createElement('div');
     todaysSection.id = 'todaysSection';
     await createCurrentWeatherDiv(todaysSection, currWeather);
-    console.log("Created current weather div");
 
     // Create div for forecast info (next days/hourly)
     const forecastSection = document.createElement('div');
     forecastSection.id = 'forecastSection';
     await swapToDaily(forecastSection, currWeather);
-    console.log("Swapped to daily forecast");
 
     // Add everything to the container
     container.append(todaysSection, forecastSection);
