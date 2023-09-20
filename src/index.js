@@ -1,3 +1,4 @@
 import {initialize} from "./DomFuncs";
+import {getWeatherForLocation} from "./Weather";
 
-document.body.append(initialize());
+const json = getWeatherForLocation("Los Angeles");
