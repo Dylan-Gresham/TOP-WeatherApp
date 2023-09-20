@@ -14,7 +14,7 @@ export function createNewWeatherIcon() {
 export async function initialize() {
     // Get the current weather for Los Angeles
     const currWeather = await getWeatherForLocation(currLocation);
-    if(currWeather === undefined) {
+    if (currWeather === undefined) {
         console.log('JSON Fetch failed');
         console.log(currWeather);
         return;
@@ -46,6 +46,8 @@ export async function initialize() {
 }
 
 async function createCurrentWeatherDiv(container, jsonObj) {
+    emptyElement(container);
+
     const leftDiv = document.createElement('div');
     leftDiv.id = 'leftDiv';
     const infoDiv = document.createElement('div');
@@ -63,14 +65,17 @@ async function createCurrentWeatherDiv(container, jsonObj) {
     switchUnitsButton.id = 'switchUnitsButton';
     switchUnitsButton.textContent = 'Switch to \xB0C';
     switchUnitsButton.addEventListener('click', (event) => {
-        if(switchUnitsButton.classList.contains('switched')) {
+        if (switchUnitsButton.classList.contains('switched')) {
             currentTemp.textContent = `${jsonObj.tempF} \xB0F`;
             switchUnitsButton.textContent = 'Switch to \xB0C';
+            switchUnitsButton.classList.toggle('switched');
         } else {
             currentTemp.textContent = `${jsonObj.tempC} \xB0C`;
             switchUnitsButton.textContent = 'Switch to \xB0F';
             switchUnitsButton.classList.toggle('switched');
         }
+
+        event.stopPropagation();
     });
     infoDiv.append(currentCondition, currentLocation, currentTemp, switchUnitsButton);
 
@@ -79,11 +84,9 @@ async function createCurrentWeatherDiv(container, jsonObj) {
     changeLocationsInput.setAttribute('type', 'search');
     changeLocationsInput.setAttribute('placeholder', 'New city...');
     changeLocationsInput.addEventListener('keypress', async (event) => {
-        if(event.code === 'Enter') {
-            if(changeLocationsInput.value === '' || changeLocationsInput.value === undefined
-                || changeLocationsInput.value === null) {
-                return;
-            } else {
+        if (event.code === 'Enter') {
+            if (!(changeLocationsInput.value === '' || changeLocationsInput.value === undefined
+                || changeLocationsInput.value === null)) {
                 const newJsonObj = getWeatherForLocation();
                 await createCurrentWeatherDiv(container, newJsonObj);
             }
@@ -95,6 +98,8 @@ async function createCurrentWeatherDiv(container, jsonObj) {
 }
 
 async function swapToDaily(container, jsonObj) {
+    emptyElement(container);
+
     const buttonDiv = document.createElement('div');
     buttonDiv.id = 'buttonDiv';
     const forecastDiv = document.createElement('div');
@@ -104,7 +109,7 @@ async function swapToDaily(container, jsonObj) {
     dailyButton.id = 'dailyButton';
     dailyButton.textContent = 'Daily';
     dailyButton.addEventListener('click', async (event) => {
-        if(!dailyButton.classList.contains('switched')) {
+        if (!dailyButton.classList.contains('switched')) {
             await swapToDaily(container, jsonObj);
             dailyButton.classList.toggle('switched');
             hourlyButton.classList.toggle('switched');
@@ -116,7 +121,7 @@ async function swapToDaily(container, jsonObj) {
     hourlyButton.id = 'hourlyButton';
     hourlyButton.textContent = 'Hourly';
     hourlyButton.addEventListener('click', async (event) => {
-        if(!hourlyButton.classList.contains('switched')) {
+        if (!hourlyButton.classList.contains('switched')) {
             await swapToHourly(container, jsonObj);
             hourlyButton.classList.toggle('switched');
             dailyButton.classList.toggle('switched');
@@ -136,15 +141,17 @@ async function swapToDaily(container, jsonObj) {
     nextDayIcon.src = jsonObj.nextDays[0].iconURL;
     const nextDayTemps = document.createElement('p');
     nextDayTemps.classList.add('dayTemps');
-    nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F}`;
+    nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F`;
     nextDayTemps.addEventListener('click', (event) => {
-       if(!nextDayTemps.classList.contains('clicked')) {
-           nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegC} \xB0C | ${jsonObj.nextDays[0].maxDegC} \xB0C}`;
-           nextDayTemps.classList.toggle('clicked');
-       } else {
-           nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F}`;
-           nextDayTemps.classList.toggle('clicked');
-       }
+        if (!nextDayTemps.classList.contains('clicked')) {
+            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegC} \xB0C | ${jsonObj.nextDays[0].maxDegC} \xB0C`;
+            nextDayTemps.classList.toggle('clicked');
+        } else {
+            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F`;
+            nextDayTemps.classList.toggle('clicked');
+        }
+
+        event.stopPropagation();
     });
     nextDayCard.append(nextDayDate, nextDayIcon, nextDayTemps);
 
@@ -158,18 +165,32 @@ async function swapToDaily(container, jsonObj) {
     thirdDayIcon.src = jsonObj.nextDays[1].iconURL;
     const thirdDayTemps = document.createElement('p');
     thirdDayTemps.classList.add('dayTemps');
-    thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F}`;
+    thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F`;
     thirdDayTemps.addEventListener('click', (event) => {
-        if(!thirdDayTemps.classList.contains('clicked')) {
-            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegC} \xB0C | ${jsonObj.nextDays[1].maxDegC} \xB0C}`;
+        if (!thirdDayTemps.classList.contains('clicked')) {
+            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegC} \xB0C | ${jsonObj.nextDays[1].maxDegC} \xB0C`;
             thirdDayTemps.classList.toggle('clicked');
         } else {
-            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F}`;
+            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F`;
             thirdDayTemps.classList.toggle('clicked');
         }
+
+        event.stopPropagation();
     });
     thirdDayCard.append(thirdDayDate, thirdDayIcon, thirdDayTemps);
     forecastDiv.append(nextDayCard, thirdDayCard);
 
     container.append(buttonDiv, forecastDiv);
+}
+
+async function swapToHourly(container, jsonObj) {
+    emptyElement(container);
+
+
+}
+
+function emptyElement(element) {
+    while (element.childList.firstChild) {
+        element.removeChild(element.children[0]);
+    }
 }

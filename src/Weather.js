@@ -1,24 +1,27 @@
 const apiKey = '30e3d1a9c51d4f939bf200856231909';
 export let currLocation = 'Los Angeles';
+
 export async function getWeatherForLocation(location) {
     try {
         // Fetch from the api
         return await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`, {mode: 'cors'})
-            .then(response => {
+            .then(response => { // Check the response
                 if (!response.ok) {
                     throw new Error(`Weather Fetch failed for ${location}`);
                 } else {
                     currLocation = location; // Update the current location
-                    return parseJson(response);
+                    return parseJson(response); // Parse the json and return the promise
                 }
             })
             .then(response => {
-                return response;
+                return response; // Return the parsed json
             })
-            .catch(err => {
+            .catch(err => { // If error occurs
                 console.error(`Error: ${err.message}`);
+
+                return undefined;
             });
-    } catch (e) {
+    } catch (e) { // If error occurs
         console.error(`Error: ${e.message}`);
 
         return undefined;
@@ -26,6 +29,7 @@ export async function getWeatherForLocation(location) {
 }
 
 function parseJson(response) {
+    // Parse the json to get the proper data
     return response.json()
         .then(data => {
             return {
@@ -40,14 +44,16 @@ function parseJson(response) {
                 feelsLikeC: data['current']['feelslike_c'],
                 feelsLikeF: data['current']['feelslike_f'],
                 chanceOfRain: data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'],
-                nextDays: getNextThreeDays(data)
+                nextDays: getNextThreeDays(data),
+                todayHourly: getTodayHourly(data)
             };
         });
 }
 
 function getNextThreeDays(json) {
+    // Parse the json to get the data
     let nextDaysList = [];
-    for(const day of json['forecast']['forecastday']) {
+    for (const day of json['forecast']['forecastday']) {
         nextDaysList.push({
             date: day['date'],
             iconURL: day['day']['condition']['icon'],
@@ -59,7 +65,25 @@ function getNextThreeDays(json) {
             avgTempF: day['day']['avgtemp_f']
         });
     }
-    nextDaysList.shift(); // Removes the first element which is the current day
+
+    // Removes the first element which is the current day
+    nextDaysList.shift();
 
     return nextDaysList;
+}
+
+function getTodayHourly(data) {
+    // Gets the current hour from data.location.localtime
+    const currentHour = (data.location["localtime"]).split(' ')[1].split(':')[0];
+
+    // Parse the json to get the hourly data
+    let todayHourly = [];
+    for (const hour of data['forecast']['forecastday'][0]['hour']) {
+        todayHourly.push({});
+    }
+
+    // Removes all hours except for the current hour and forward
+    todayHourly.splice(0, parseInt(currentHour));
+
+    return todayHourly;
 }

@@ -1,4 +1,5 @@
 const {initialize} =  require("./DomFuncs.js");
+const {css} = require('./index.css');
 
 async function createContainer() {
     return await initialize()
@@ -21,8 +22,8 @@ async function appendContainer(documentBody, containerFunc) {
 }
 
 appendContainer(document.body, createContainer)
-    .then(response => {
+    .then(() => {
         console.log("Appended to body.");
 
-        return;
+
     });
