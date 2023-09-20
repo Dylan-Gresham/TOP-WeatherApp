@@ -33,6 +33,9 @@ function parseJson(response) {
     return response.json()
         .then(data => {
             return {
+                city: data['location']['name'],
+                region: data['location']['region'],
+                country: data['location']['country'],
                 icon: data['current']['condition']['icon'],
                 tempC: data['current']['temp_c'],
                 tempF: data['current']['temp_f'],

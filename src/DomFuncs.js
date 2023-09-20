@@ -53,7 +53,7 @@ async function createCurrentWeatherDiv(container, jsonObj) {
     currentCondition.textContent = jsonObj.condition;
     const currentLocation = document.createElement('h6');
     currentLocation.id = 'currentLocation';
-    currentLocation.textContent = currLocation;
+    currentLocation.textContent = `${jsonObj.city}, ${jsonObj.region}, ${jsonObj.country}`;
     const currentTemp = document.createElement('h1');
     currentTemp.id = 'currentTemp';
     currentTemp.textContent = `${jsonObj.tempF} \xB0F`;
@@ -84,7 +84,7 @@ async function createCurrentWeatherDiv(container, jsonObj) {
         if (event.code === 'Enter') {
             if (!(changeLocationsInput.value === '' || changeLocationsInput.value === undefined
                 || changeLocationsInput.value === null)) {
-                const newJsonObj = getWeatherForLocation();
+                const newJsonObj = await getWeatherForLocation(changeLocationsInput.value);
                 await createCurrentWeatherDiv(container, newJsonObj);
             }
         }
