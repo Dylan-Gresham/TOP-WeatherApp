@@ -79,7 +79,14 @@ function getTodayHourly(data) {
     // Parse the json to get the hourly data
     let todayHourly = [];
     for (const hour of data['forecast']['forecastday'][0]['hour']) {
-        todayHourly.push({});
+        todayHourly.push({
+            hour: hour['time'].split(' ')[1].split(':')[0],
+            tempC: hour['temp_c'],
+            tempF: hour['temp_f'],
+            condition: hour['condition']['text'],
+            iconURL: hour['condition']['icon'],
+            chanceOfRain: hour['chance_of_rain']
+        });
     }
 
     // Removes all hours except for the current hour and forward
