@@ -118,13 +118,13 @@ async function swapToDaily(container, jsonObj) {
     const nextDayTemps = document.createElement('h4');
     nextDayTemps.classList.add('dayTemps');
     nextDayTemps.classList.add('temp');
-    nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F`;
+    nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].minTempF} \xB0F`;
     nextDayTemps.addEventListener('click', (event) => {
         if (!nextDayTemps.classList.contains('clicked')) {
-            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegC} \xB0C | ${jsonObj.nextDays[0].maxDegC} \xB0C`;
+            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegC} \xB0C | ${jsonObj.nextDays[0].minTempC} \xB0C`;
             nextDayTemps.classList.toggle('clicked');
         } else {
-            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].maxDegF} \xB0F`;
+            nextDayTemps.textContent = `${jsonObj.nextDays[0].maxDegF} \xB0F | ${jsonObj.nextDays[0].minTempF} \xB0F`;
             nextDayTemps.classList.toggle('clicked');
         }
 
@@ -143,13 +143,13 @@ async function swapToDaily(container, jsonObj) {
     const thirdDayTemps = document.createElement('h4');
     thirdDayTemps.classList.add('dayTemps');
     thirdDayTemps.classList.add('temp');
-    thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F`;
+    thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].minTempF} \xB0F`;
     thirdDayTemps.addEventListener('click', (event) => {
         if (!thirdDayTemps.classList.contains('clicked')) {
-            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegC} \xB0C | ${jsonObj.nextDays[1].maxDegC} \xB0C`;
+            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegC} \xB0C | ${jsonObj.nextDays[1].minTempC} \xB0C`;
             thirdDayTemps.classList.toggle('clicked');
         } else {
-            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].maxDegF} \xB0F`;
+            thirdDayTemps.textContent = `${jsonObj.nextDays[1].maxDegF} \xB0F | ${jsonObj.nextDays[1].minTempF} \xB0F`;
             thirdDayTemps.classList.toggle('clicked');
         }
 
