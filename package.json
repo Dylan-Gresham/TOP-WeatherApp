@@ -2,10 +2,17 @@
   "name": "top-weatherapp",
   "version": "1.0.0",
   "description": "A weather app made for The Odin Project",
-  "private": true,
   "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dylan-Gresham/TOP-WeatherApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dylan-Gresham/TOP-WeatherApp/issues"
+  },
+  "homepage": "https://github.com/Dylan-Gresham/TOP-WeatherApp#readme",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.prod.config.js",
     "start": "webpack serve --open"
   },
   "author": "Dylan Gresham",
@@ -17,9 +24,5 @@
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
-  },
-  "dependencies": {
-    "clean-webpack-plugin": "^4.0.0",
-    "webpack-merge": "^5.9.0"
   }
 }
